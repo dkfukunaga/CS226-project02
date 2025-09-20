@@ -102,6 +102,14 @@ TEST_CASE("cartesian product with empty set") {
     CHECK(P.empty()); // |A×∅| = 0
 }
 
+TEST_CASE("cartesian product square contains diagonals") {
+    ValueSet A = {std::string("a"), std::string("b")};
+    auto P = cartesian_product(A, A);
+    REQUIRE(P.size() == A.size() * A.size());
+    CHECK(std::find(P.begin(), P.end(), ValuePair{std::string("a"), std::string("a")}) != P.end());
+    CHECK(std::find(P.begin(), P.end(), ValuePair{std::string("b"), std::string("b")}) != P.end());
+}
+
 TEST_CASE("power set") {
     ValueSet A = {1, 2};
 
@@ -126,6 +134,14 @@ TEST_CASE("power set of singleton") {
     REQUIRE(P.size() == 2);
     CHECK(std::find(P.begin(), P.end(), ValueSet{}) != P.end());
     CHECK(std::find(P.begin(), P.end(), ValueSet{std::string("x")}) != P.end());
+}
+
+TEST_CASE("power set contains empty and the set itself") {
+    ValueSet A = {1, 2, 3};
+    auto P = power_set(A);
+    REQUIRE(P.size() == (1u << A.size()));
+    CHECK(std::find(P.begin(), P.end(), ValueSet{}) != P.end());
+    CHECK(std::find(P.begin(), P.end(), A) != P.end());
 }
 
 TEST_CASE("mixed-type variant semantics (int vs string vs double)") {
@@ -157,6 +173,14 @@ TEST_CASE("mixed-type variant semantics (int vs string vs double)") {
     CHECK(set_union(A, OnlyInt) == A);
 }
 
+TEST_CASE("variant distinctions: bool vs int vs double") {
+    ValueSet A = {true, 1, 1.0};
+    CHECK(A.size() == 3);
+    CHECK(A.find(true) != A.end());
+    CHECK(A.find(1) != A.end());
+    CHECK(A.find(1.0) != A.end());
+}
+
 TEST_CASE("cartesian product with mixed types and empties") {
     ValueSet A = {1, std::string("1")};
     ValueSet B = {1.0};
@@ -172,3 +196,12 @@ TEST_CASE("cartesian product with mixed types and empties") {
     CHECK(cartesian_product(A, Empty).empty());
     CHECK(cartesian_product(Empty, B).empty());
 }
+
+TEST_CASE("idempotence and equality") {
+    ValueSet A = {1, 2, 3};
+    CHECK(set_union(A, A) == A);
+    CHECK(set_intersection(A, A) == A);
+    CHECK(set_difference(A, A).empty());
+    CHECK(set_symmetric_difference(A, A).empty());
+}
+
