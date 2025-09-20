@@ -14,8 +14,9 @@
 */
 
 /* INCLUDES and NAMESPACE */
-#include <iostream>
+
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 #include "value_types.h"
@@ -24,15 +25,18 @@
 using namespace std;
 
 /* TYPES */
+
 struct FileNames {
     std::string input_file;
     std::string output_file;
 };
 
 /* CONSTANTS */
+
 constexpr const char* DEFAULT_INPUT_FILE = "input.txt";
 
 /* FUNCTION PROTOTYPES */
+
 FileNames parse_args(int argc, char* argv[]);
 
 int main(int argc, char* argv[]) {
@@ -74,6 +78,20 @@ int main(int argc, char* argv[]) {
 }
 
 /* FUNCTION DEFINITIONS */
+
+/**
+ * @brief Parses command-line arguments for input and output files.
+ *
+ * Recognized options:
+ *   - `-i <file>` : optional input file (defaults to "input.txt" if omitted).
+ *   - `-o <file>` : optional output file (if omitted, results are written only to console).
+ *
+ * @param argc Number of arguments (from main).
+ * @param argv Array of argument strings (from main).
+ * @return FileNames Structure containing resolved input and output file names.
+ *
+ * @throws std::runtime_error if an option is malformed, duplicated, or unknown.
+ */
 FileNames parse_args(int argc, char* argv[]) {
     FileNames opts;
     std::vector<std::string> args(argv + 1, argv + argc);
