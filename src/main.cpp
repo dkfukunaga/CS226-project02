@@ -15,6 +15,8 @@
 
 /* INCLUDES and NAMESPACE */
 #include <iostream>
+#include "value_types.h"
+#include "set_ops.h"
 using namespace std;
 
 /* FUNCTION PROTOTYPES */
