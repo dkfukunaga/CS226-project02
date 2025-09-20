@@ -48,7 +48,7 @@ using ValuePairVec = std::vector<ValuePair>;
 /**
  * @brief Represents a collection of sets of heterogeneous values.
  *
- * Implemented as std::vector<ValuePair>; duplicates are possible.
+ * Implemented as std::vector<ValueSet>; duplicates are possible.
  * Returned by the power set function.
  */
 using ValueSetVec = std::vector<ValueSet>;
