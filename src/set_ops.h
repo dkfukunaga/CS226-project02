@@ -6,69 +6,95 @@
 
 /**
  * @namespace setops
- * @brief Provides type aliases and functions for mathematical set operations.
- * 
- * The setops namespace contains:
- *   - Type definitions for heterogeneous values and sets (see value_types.h).
- *   - Functions for common set operations: union, intersection, difference,
- *     symmetric difference, Cartesian product, and power set.
+ * @brief Provides mathematical set operations on heterogeneous value sets.
+ *
+ * The `setops` namespace defines a collection of functions for standard
+ * set operations on `ValueSet`, a heterogeneous set of values represented
+ * using `std::variant`. Supported operations include:
+ *
+ * - Union (A ∪ B)
+ * - Intersection (A ∩ B)
+ * - Difference (A \ B)
+ * - Symmetric difference (A ⊕ B)
+ * - Cartesian product (A × B)
+ * - Power set (𝒫(A))
+ *
+ * Each function follows the standard mathematical definition, while
+ * working with the `ValueSet` type defined in `value_types.h`.
+ *
+ * @see ValueSet
+ * @see value_types.h
  */
 namespace setops {
 
 /**
- * @brief A ∪ B = { x | x ∈ A or x ∈ B }
- *        Set of all of the elements in A and in B.
+ * @brief Computes the union of two sets.
  * 
- * @param A set A
- * @param B set B
- * @return ValueSet – A union B
+ * Mathematical definition:
+ *   A ∪ B = { x | x ∈ A or x ∈ B }
+ * 
+ * @param A Set A
+ * @param B Set B
+ * @return ValueSet Set containing all unique elements from A and B.
  */
 ValueSet set_union(const ValueSet& A, const ValueSet& B);
 
 /**
- * @brief A ∩ B = { x | x ∈ A and x ∈ B }
- *        Set of all of the elements shared by A and B.
+ * @brief Computes the intersection of two sets.
+ *
+ * Mathematical definition:
+ *   A ∩ B = { x | x ∈ A and x ∈ B }
  * 
- * @param A set A
- * @param B set B
- * @return ValueSet – A intersection B
+ * @param A Set A
+ * @param B Set B
+ * @return ValueSet Set containing only the elements present in both A and B.
  */
 ValueSet set_intersection(const ValueSet& A, const ValueSet& B);
 
 /**
- * @brief A \ B = { x | x ∈ A and x ∉ B }
- *        Set of all of the elements of A that are not also in B.
+ * @brief Computes the difference of two sets.
+ *
+ * Mathematical definition:
+ *   A \ B = { x | x ∈ A and x ∉ B }
  * 
- * @param A set A
- * @param B set B
- * @return ValueSet – difference of A and B
+ * @param A Set A
+ * @param B Set B
+ * @return ValueSet Set containing elements of A that are not in B.
  */
 ValueSet set_difference(const ValueSet& A, const ValueSet& B);
 
 /**
- * @brief A ⊕ B = (A \ B) ∪ (B \ A)
- *        Set of all the elements that are in exactly one of A or B.
+ * @brief Computes the symmetric difference of two sets.
+ *
+ * Mathematical definition:
+ *   A ⊕ B = (A \ B) ∪ (B \ A)
  * 
- * @param A set A
- * @param B set B
- * @return ValueSet – A xor B
+ * @param A Set A
+ * @param B Set B
+ * @return ValueSet Set containing elements present in exactly one of A or B.
  */
 ValueSet set_symmetric_difference(const ValueSet& A, const ValueSet& B);
 
 /**
- * @brief A × B = { (a, b) | a ∈ A and b ∈ B }
+ * @brief Computes the Cartesian product of two sets.
+ *
+ * Mathematical definition:
+ *   A × B = { (a, b) | a ∈ A and b ∈ B }
  * 
- * @param A set A
- * @param B set B
- * @return ValuePairVec 
+ * @param A Set A
+ * @param B Set B
+ * @return ValuePairVec Vector of ordered pairs representing all (a, b) combinations.
  */
 ValuePairVec cartesian_product(const ValueSet& A, const ValueSet& B);
 
 /**
- * @brief P(A) = { S | S ⊆ A }
+ * @brief Computes the power set of a set.
+ *
+ * Mathematical definition:
+ *   𝒫(A) = { S | S ⊆ A }
  * 
- * @param A set A
- * @return ValueSetVec 
+ * @param A Set A
+ * @return ValueSetVec Vector of all subsets of A.
  */
 ValueSetVec power_set(const ValueSet& A);
 
