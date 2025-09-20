@@ -2,7 +2,8 @@
 
 namespace setops {
 
-ValueSet        set_union(const ValueSet& A, const ValueSet& B) {
+// A ∪ B = { x | x ∈ A or x ∈ B }
+ValueSet set_union(const ValueSet& A, const ValueSet& B) {
     ValueSet result;
     for (const auto& elem : A) {
         result.insert(elem);
@@ -13,7 +14,8 @@ ValueSet        set_union(const ValueSet& A, const ValueSet& B) {
     return result;
 }
 
-ValueSet        set_intersection(const ValueSet& A, const ValueSet& B) {
+// A ∩ B = { x | x ∈ A and x ∈ B }
+ValueSet set_intersection(const ValueSet& A, const ValueSet& B) {
     ValueSet result;
     for (const auto& elem : A) {
         if (B.find(elem) != B.end()) {
@@ -23,7 +25,8 @@ ValueSet        set_intersection(const ValueSet& A, const ValueSet& B) {
     return result;
 }
 
-ValueSet        set_difference(const ValueSet& A, const ValueSet& B) {
+// A \ B = { x | x ∈ A and x ∉ B }
+ValueSet set_difference(const ValueSet& A, const ValueSet& B) {
     ValueSet result = A;
     for (const auto& elem : B) {
         if (result.find(elem) != result.end()) {
@@ -33,7 +36,8 @@ ValueSet        set_difference(const ValueSet& A, const ValueSet& B) {
     return result;
 }
 
-ValueSet        set_symmetric_difference(const ValueSet& A, const ValueSet& B) {
+// A ⊕ B = (A \ B) ∪ (B \ A)
+ValueSet set_symmetric_difference(const ValueSet& A, const ValueSet& B) {
     ValueSet result;
     for (const auto& elem : A) {
         if (B.find(elem) == B.end()) {
@@ -48,11 +52,13 @@ ValueSet        set_symmetric_difference(const ValueSet& A, const ValueSet& B) {
     return result;
 }
 
-ValuePairVec    cartesian_product(const ValueSet& A, const ValueSet& B) {
+// A × B = { (a, b) | a ∈ A and b ∈ B }
+ValuePairVec cartesian_product(const ValueSet& A, const ValueSet& B) {
     return {};
 }
 
-ValueSetVec     power_set(const ValueSet& A) {
+// P(A) = { S | S ⊆ A }
+ValueSetVec power_set(const ValueSet& A) {
     return {};
 }
 
