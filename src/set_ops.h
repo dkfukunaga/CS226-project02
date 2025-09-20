@@ -1,7 +1,6 @@
 #ifndef SET_OPS_H
 #define SET_OPS_H
 
-#include <vector>
 #include "value_types.h"
 
 /**

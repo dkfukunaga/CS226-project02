@@ -3,25 +3,54 @@
 
 #include <variant>
 #include <set>
-#include <utility>
+#include <utility> // for std::pair
 #include <vector>
 #include <string>
 
 namespace setops {
 
-// Value variant to create heterogeneous set
+/**
+ * @brief Represents a heterogeneous value.
+ *
+ * A Value can be one of:
+ * - bool
+ * - int
+ * - double
+ * - std::string
+ *
+ * This type is the element type for ValueSet.
+ */
 using Value = std::variant<bool, int, double, std::string>;
 
-// heterogeneous set of Value
+/**
+ * @brief Represents a set of heterogeneous values.
+ *
+ * Implemented as std::set<Value> with default ordering and equality.
+ * Used as the core container for set operations such as union, intersection, etc.
+ */
 using ValueSet = std::set<Value>;
 
-// pairs for cartesian product
+/**
+ * @brief Represents an ordered pair (a, b) of heterogeneous values.
+ *
+ * Used in the Cartesian product operation.
+ */
 using ValuePair = std::pair<Value, Value>;
 
-// vector for cartesian product
+/**
+ * @brief Represents a collection of ordered pairs of heterogeneous values.
+ *
+ * Implemented as std::vector<ValuePair>; duplicates are possible.
+ * Returned by the Cartesian product function.
+ */
 using ValuePairVec = std::vector<ValuePair>;
 
-// vector of sets for power set
+/**
+ * @brief Represents a collection of sets of heterogeneous values.
+ *
+ * Implemented as std::vector<ValuePair>; duplicates are possible.
+ * Returned by the power set function.
+ */
 using ValueSetVec = std::vector<ValueSet>;
 
 } // namespace setops
