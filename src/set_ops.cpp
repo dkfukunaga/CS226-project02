@@ -4,10 +4,10 @@ namespace setops {
 
 ValueSet        set_union(const ValueSet& A, const ValueSet& B) {
     ValueSet result;
-    for (auto& elem : A) {
+    for (const auto& elem : A) {
         result.insert(elem);
     }
-    for (auto& elem : B) {
+    for (const auto& elem : B) {
         result.insert(elem);
     }
     return result;
@@ -15,12 +15,9 @@ ValueSet        set_union(const ValueSet& A, const ValueSet& B) {
 
 ValueSet        set_intersection(const ValueSet& A, const ValueSet& B) {
     ValueSet result;
-    for (auto& elem_a : A) {
-        for (auto& elem_b : B) {
-            if (elem_a == elem_b) {
-                result.insert(elem_a);
-                break;
-            }
+    for (const auto& elem : A) {
+        if (B.find(elem) != B.end()) {
+            result.insert(elem);
         }
     }
     return result;
@@ -28,7 +25,7 @@ ValueSet        set_intersection(const ValueSet& A, const ValueSet& B) {
 
 ValueSet        set_difference(const ValueSet& A, const ValueSet& B) {
     ValueSet result = A;
-    for (auto& elem : B) {
+    for (const auto& elem : B) {
         if (result.find(elem) != result.end()) {
             result.extract(elem);
         }
@@ -38,12 +35,12 @@ ValueSet        set_difference(const ValueSet& A, const ValueSet& B) {
 
 ValueSet        set_symmetric_difference(const ValueSet& A, const ValueSet& B) {
     ValueSet result;
-    for (auto& elem : A) {
+    for (const auto& elem : A) {
         if (B.find(elem) == B.end()) {
             result.insert(elem);
         }
     }
-    for (auto& elem : B) {
+    for (const auto& elem : B) {
         if (A.find(elem) == A.end()) {
             result.insert(elem);
         }
