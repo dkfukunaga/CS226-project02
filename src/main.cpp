@@ -15,24 +15,91 @@
 
 /* INCLUDES and NAMESPACE */
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
 #include "value_types.h"
 #include "set_ops.h"
+
 using namespace std;
 
+/* TYPES */
+struct FileNames {
+    std::string input_file;
+    std::string output_file;
+};
+
+/* CONSTANTS */
+constexpr const char* DEFAULT_INPUT_FILE = "input.txt";
+
 /* FUNCTION PROTOTYPES */
-void exampleFunction(int var1, string var2);
+FileNames parse_args(int argc, char* argv[]);
 
-int main() {
-	//put your main program here!
+int main(int argc, char* argv[]) {
 
-	return 0;
+    FileNames file_names;
+
+    try {
+        // Collect arguments into vector for easier handling
+        file_names = parse_args(argc, argv);
+
+        // Open input file
+        std::ifstream in(file_names.input_file);
+        if (!in) {
+            std::cerr << "Error: could not open input file: " << file_names.input_file << "\n";
+            return 1;
+        }
+
+        // Setup output streams
+        // Only write to file if output file provided
+        std::ofstream out;
+        bool write_to_file = false;
+        if (!file_names.output_file.empty()) {
+            out.open(file_names.output_file);
+            if (!out) {
+                std::cerr << "Error: could not open output file: " << file_names.output_file << "\n";
+                return 1;
+            }
+            write_to_file = true;
+        }
+
+        //put your main program here!
+
+	    return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+        std::cerr << "Usage: " << argv[0] << " [-i file] [-o file]\n";
+        return 1;
+    }
 }
 
 /* FUNCTION DEFINITIONS */
-/* Description: 
-   Preconditions:
-   Postonditions:
- */
-void exampleFunction(int var1, string var2) {
-	//function body here
+FileNames parse_args(int argc, char* argv[]) {
+    FileNames opts;
+    std::vector<std::string> args(argv + 1, argv + argc);
+
+    for (size_t i = 0; i < args.size(); ++i) {
+        if (args[i] == "-i") {
+            if (i + 1 < args.size()) {
+                if (!opts.input_file.empty()) throw std::runtime_error("-i specified more than once");
+                opts.input_file = args[++i];
+            } else throw std::runtime_error("-i requires a filename");
+        } else if (args[i] == "-o") {
+            if (i + 1 < args.size()) {
+                if (!opts.output_file.empty()) throw std::runtime_error("-o specified more than once");
+                opts.output_file = args[++i];
+            } else throw std::runtime_error("-o requires a filename");
+        } else if (args[i] == "-h" || args[i] == "--help") {
+            std::cout << "Usage: " << argv[0] << " [-i file] [-o file]\n";
+            std::exit(0);
+        } else {
+            throw std::runtime_error("Unknown option: " + args[i]);
+        }
+    }
+
+    if (opts.input_file.empty()) {
+        opts.input_file = DEFAULT_INPUT_FILE; // default
+    }
+
+    return opts;
 }
