@@ -7,6 +7,11 @@
 
 using namespace setops;
 
+// compile command:
+// g++ -std=c++17 -Isrc -Idoctest src/set_ops.cpp doctest/test_set_ops.cpp -o bin/run_tests
+// run command:
+// ./bin/run_tests.exe -s
+
 TEST_CASE("basic union and intersection") {
     ValueSet A = {1, 2, 3};
     ValueSet B = {3, 4, 5};
