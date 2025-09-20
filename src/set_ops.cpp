@@ -54,7 +54,13 @@ ValueSet set_symmetric_difference(const ValueSet& A, const ValueSet& B) {
 
 // A × B = { (a, b) | a ∈ A and b ∈ B }
 ValuePairVec cartesian_product(const ValueSet& A, const ValueSet& B) {
-    return {};
+    ValuePairVec result;
+    for (auto elem_a : A) {
+        for (auto elem_b : B) {
+            result.push_back(ValuePair{elem_a, elem_b});
+        }
+    }
+    return result;
 }
 
 // P(A) = { S | S ⊆ A }
