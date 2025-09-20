@@ -59,7 +59,19 @@ ValuePairVec cartesian_product(const ValueSet& A, const ValueSet& B) {
 }
 
 ValueSetVec power_set(const ValueSet& A) {
-    return {};
+    ValueSetVec result;
+    result.push_back({}); // power set always includes the empty set
+
+    for (const auto& elem : A) {
+        size_t curr_size = result.size();
+        for (size_t i = 0; i < curr_size; ++i) {
+            ValueSet subset = result[i];
+            subset.insert(elem);
+            result.push_back(subset);
+        }
+    }
+
+    return result;
 }
 
 } // namespace setops

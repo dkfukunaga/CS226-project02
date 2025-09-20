@@ -1,6 +1,7 @@
 #ifndef SET_OPS_H
 #define SET_OPS_H
 
+#include <algorithm>
 #include "value_types.h"
 
 /**
