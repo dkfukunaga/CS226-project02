@@ -4,11 +4,20 @@
 #include <vector>
 #include "value_types.h"
 
+/**
+ * @namespace setops
+ * @brief Provides type aliases and functions for mathematical set operations.
+ * 
+ * The setops namespace contains:
+ *   - Type definitions for heterogeneous values and sets (see value_types.h).
+ *   - Functions for common set operations: union, intersection, difference,
+ *     symmetric difference, Cartesian product, and power set.
+ */
 namespace setops {
 
 /**
  * @brief A ∪ B = { x | x ∈ A or x ∈ B }
- *        Set of all of the elements of both A and B.
+ *        Set of all of the elements in A and in B.
  * 
  * @param A set A
  * @param B set B
