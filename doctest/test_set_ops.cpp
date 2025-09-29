@@ -76,7 +76,7 @@ TEST_CASE("cartesian product") {
     ValueSet A = {1, 2};
     ValueSet B = {3, 4};
 
-    auto P = cartesian_product(A, B);
+    auto P = set_cartesian_product(A, B);
 
     // Size: |A×B| = |A| * |B|
     REQUIRE(P.size() == A.size() * B.size());
@@ -98,13 +98,13 @@ TEST_CASE("cartesian product with empty set") {
     ValueSet A = {1, 2};
     ValueSet B = {}; // empty
 
-    auto P = cartesian_product(A, B);
+    auto P = set_cartesian_product(A, B);
     CHECK(P.empty()); // |A×∅| = 0
 }
 
 TEST_CASE("cartesian product square contains diagonals") {
     ValueSet A = {std::string("a"), std::string("b")};
-    auto P = cartesian_product(A, A);
+    auto P = set_cartesian_product(A, A);
     REQUIRE(P.size() == A.size() * A.size());
     CHECK(std::find(P.begin(), P.end(), ValuePair{std::string("a"), std::string("a")}) != P.end());
     CHECK(std::find(P.begin(), P.end(), ValuePair{std::string("b"), std::string("b")}) != P.end());
@@ -185,7 +185,7 @@ TEST_CASE("cartesian product with mixed types and empties") {
     ValueSet A = {1, std::string("1")};
     ValueSet B = {1.0};
 
-    auto P = cartesian_product(A, B);
+    auto P = set_cartesian_product(A, B);
 
     REQUIRE(P.size() == A.size() * B.size()); // 2 * 1 = 2
     CHECK(std::find(P.begin(), P.end(), ValuePair{Value{1}, Value{1.0}}) != P.end());
@@ -193,8 +193,8 @@ TEST_CASE("cartesian product with mixed types and empties") {
 
     // With empty partner, product is empty
     ValueSet Empty = {};
-    CHECK(cartesian_product(A, Empty).empty());
-    CHECK(cartesian_product(Empty, B).empty());
+    CHECK(set_cartesian_product(A, Empty).empty());
+    CHECK(set_cartesian_product(Empty, B).empty());
 }
 
 TEST_CASE("idempotence and equality") {
