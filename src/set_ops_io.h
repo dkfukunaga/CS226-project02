@@ -39,6 +39,10 @@ inline std::ostream& operator<<(std::ostream& out, const ValuePair& p) {
 }
 
 inline std::ostream& operator<<(std::ostream& out, const ValuePairVec& v) {
+    if (v.empty()) {
+        out << "{}";
+        return out;
+    }
     for (auto it = v.begin(); it != v.end(); ++it) {
         if (it == v.begin())
             out << "{" << *it;
@@ -50,6 +54,10 @@ inline std::ostream& operator<<(std::ostream& out, const ValuePairVec& v) {
 }
 
 inline std::ostream& operator<<(std::ostream& out, const ValueSet& s) {
+    if (s.empty()) {
+        out << "{}";
+        return out;
+    }
     for (auto it = s.begin(); it != s.end(); ++it) {
         if (it == s.begin())
             out << "{" << *it;
@@ -61,6 +69,10 @@ inline std::ostream& operator<<(std::ostream& out, const ValueSet& s) {
 }
 
 inline std::ostream& operator<<(std::ostream& out, const ValueSetVec& v) {
+    if (v.empty()) {
+        out << "{}";
+        return out;
+    }
     for (auto it = v.begin(); it != v.end(); ++it) {
         if (it == v.begin())
             out << "{" << *it;
