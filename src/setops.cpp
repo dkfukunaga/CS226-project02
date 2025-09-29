@@ -21,8 +21,10 @@
 #include <vector>
 #include "value_types.h"
 #include "set_ops.h"
+#include "set_ops_io.h"
 
 using namespace std;
+using namespace setops;
 
 /* TYPES */
 
@@ -42,32 +44,66 @@ FileNames parse_args(int argc, char* argv[]);
 int main(int argc, char* argv[]) {
 
     FileNames file_names;
+    ifstream in_file;
+    ofstream out_file;
 
     try {
         // Collect arguments into vector for easier handling
         file_names = parse_args(argc, argv);
 
         // Open input file
-        std::ifstream in(file_names.input_file);
-        if (!in) {
-            std::cerr << "Error: could not open input file: " << file_names.input_file << "\n";
+        in_file.open(file_names.input_file);
+        if (!in_file) {
+            cerr << "Error: could not open input file: " << file_names.input_file << "\n";
             return 1;
         }
 
         // Setup output streams
         // Only write to file if output file provided
-        std::ofstream out;
+        out_file;
         bool write_to_file = false;
         if (!file_names.output_file.empty()) {
-            out.open(file_names.output_file);
-            if (!out) {
-                std::cerr << "Error: could not open output file: " << file_names.output_file << "\n";
+            out_file.open(file_names.output_file);
+            if (!out_file) {
+                cerr << "Error: could not open output file: " << file_names.output_file << "\n";
                 return 1;
             }
             write_to_file = true;
         }
 
-        //put your main program here!
+        ValueSet set_a;
+        ValueSet set_b;
+        string line;
+
+        getline(in_file, line);
+        set_a = parseSet(line);
+        
+        getline(in_file, line);
+        set_b = parseSet(line);
+
+        cout << "Set A: ";
+        cout << set_a << endl;
+
+        cout << "Set B: ";
+        cout << set_b << "\n" << endl;
+
+        ValueSet a_b_union = set_union(set_a, set_b);
+        cout << "A union B = " << a_b_union << endl;
+
+        ValueSet a_b_intersect = set_intersection(set_a, set_b);
+        cout << "A intersection B = " << a_b_intersect << endl;
+
+        ValueSet a_b_diff = set_difference(set_a, set_b);
+        cout << "A difference B = " << a_b_diff << endl;
+
+        ValueSet a_b_xor = set_symmetric_difference(set_a, set_b);
+        cout << "A xor B = " << a_b_xor << endl;
+
+        ValuePairVec a_b_cross = set_cartesian_product(set_a, set_b);
+        cout << "A X B = " << a_b_cross << endl;
+
+        ValueSetVec a_power = power_set(set_a);
+        cout << "P(A) = " << a_power << endl;
 
 	    return 0;
     } catch (const std::exception& e) {
@@ -75,6 +111,9 @@ int main(int argc, char* argv[]) {
         std::cerr << "Usage: " << argv[0] << " [-i file] [-o file]\n";
         return 1;
     }
+
+    
+
 }
 
 /* FUNCTION DEFINITIONS */
@@ -94,6 +133,11 @@ int main(int argc, char* argv[]) {
  */
 FileNames parse_args(int argc, char* argv[]) {
     FileNames opts;
+    // if (argc == 1) {
+    //     opts.input_file = DEFAULT_INPUT_FILE;
+    //     return opts;
+    // }
+
     std::vector<std::string> args(argv + 1, argv + argc);
 
     for (size_t i = 0; i < args.size(); ++i) {
