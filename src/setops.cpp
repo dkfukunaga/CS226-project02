@@ -77,33 +77,41 @@ int main(int argc, char* argv[]) {
 
         getline(in_file, line);
         set_a = parseSet(line);
-        
         getline(in_file, line);
         set_b = parseSet(line);
 
+        ValueSet a_b_union = set_union(set_a, set_b);
+        ValueSet a_b_intersect = set_intersection(set_a, set_b);
+        ValueSet a_b_diff = set_difference(set_a, set_b);
+        ValueSet a_b_xor = set_symmetric_difference(set_a, set_b);
+        ValuePairVec a_b_cross = set_cartesian_product(set_a, set_b);
+        ValueSetVec a_power = power_set(set_a);
+
         cout << "Set A: ";
         cout << set_a << endl;
-
         cout << "Set B: ";
-        cout << set_b << "\n" << endl;
-
-        ValueSet a_b_union = set_union(set_a, set_b);
+        cout << set_b << endl;
+        
         cout << "A union B = " << a_b_union << endl;
-
-        ValueSet a_b_intersect = set_intersection(set_a, set_b);
         cout << "A intersection B = " << a_b_intersect << endl;
-
-        ValueSet a_b_diff = set_difference(set_a, set_b);
         cout << "A difference B = " << a_b_diff << endl;
-
-        ValueSet a_b_xor = set_symmetric_difference(set_a, set_b);
         cout << "A xor B = " << a_b_xor << endl;
-
-        ValuePairVec a_b_cross = set_cartesian_product(set_a, set_b);
         cout << "A X B = " << a_b_cross << endl;
-
-        ValueSetVec a_power = power_set(set_a);
         cout << "P(A) = " << a_power << endl;
+
+        if (out_file.is_open()) {
+            out_file << "Set A: ";
+            out_file << set_a << endl;
+            out_file << "Set B: ";
+            out_file << set_b << endl;
+            
+            out_file << "A union B = " << a_b_union << endl;
+            out_file << "A intersection B = " << a_b_intersect << endl;
+            out_file << "A difference B = " << a_b_diff << endl;
+            out_file << "A xor B = " << a_b_xor << endl;
+            out_file << "A X B = " << a_b_cross << endl;
+            out_file << "P(A) = " << a_power << endl;
+        }
 
 	    return 0;
     } catch (const std::exception& e) {
