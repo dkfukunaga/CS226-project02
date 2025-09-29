@@ -33,11 +33,14 @@ inline std::ostream& operator<<(std::ostream& os, const Value& v) {
 }
 
 // simple ostream operator for Pair<Value, Value>
+// prints as "(a, b)""
 inline std::ostream& operator<<(std::ostream& out, const ValuePair& p) {
     out << "(" << p.first << ", " << p.second << ")";
     return out;
 }
 
+// ostream operator for Vector<Pair<Value, Value>>
+// prints inside of curly braces
 inline std::ostream& operator<<(std::ostream& out, const ValuePairVec& v) {
     if (v.empty()) {
         out << "{}";
@@ -53,6 +56,9 @@ inline std::ostream& operator<<(std::ostream& out, const ValuePairVec& v) {
     return out;
 }
 
+// ostream operator for Set<Value>
+// prints inside of curly braces
+// prints empty set as "{}"
 inline std::ostream& operator<<(std::ostream& out, const ValueSet& s) {
     if (s.empty()) {
         out << "{}";
@@ -68,6 +74,8 @@ inline std::ostream& operator<<(std::ostream& out, const ValueSet& s) {
     return out;
 }
 
+// ostream operator for Vector<Set<Value>>
+// prints inside of curly braces
 inline std::ostream& operator<<(std::ostream& out, const ValueSetVec& v) {
     if (v.empty()) {
         out << "{}";

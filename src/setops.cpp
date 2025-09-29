@@ -19,9 +19,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "value_types.h"
-#include "set_ops.h"
-#include "set_ops_io.h"
+#include "value_types.h"    // aliases for variants, sets, pairs, vectors, etc
+#include "set_ops.h"        // set operations union, intersection, difference, xor, cartesian product, power set
+#include "set_ops_io.h"     // helper functions for parsing and outputing sets
 
 using namespace std;
 using namespace setops;
@@ -29,8 +29,8 @@ using namespace setops;
 /* TYPES */
 
 struct FileNames {
-    std::string input_file;
-    std::string output_file;
+    string input_file;
+    string output_file;
 };
 
 /* CONSTANTS */
@@ -75,11 +75,13 @@ int main(int argc, char* argv[]) {
         ValueSet set_b;
         string line;
 
+        // read sets from input file
         getline(in_file, line);
         set_a = parseSet(line);
         getline(in_file, line);
         set_b = parseSet(line);
 
+        // apply set operations
         ValueSet a_b_union = set_union(set_a, set_b);
         ValueSet a_b_intersect = set_intersection(set_a, set_b);
         ValueSet a_b_diff = set_difference(set_a, set_b);
@@ -87,11 +89,11 @@ int main(int argc, char* argv[]) {
         ValuePairVec a_b_cross = set_cartesian_product(set_a, set_b);
         ValueSetVec a_power = power_set(set_a);
 
-        cout << "Set A: ";
-        cout << set_a << endl;
-        cout << "Set B: ";
-        cout << set_b << endl;
+        // output original sets
+        cout << "Set A: " << set_a << endl;
+        cout << "Set B: " << set_b << endl;
         
+        // output results of set operations
         cout << "A union B = " << a_b_union << endl;
         cout << "A intersection B = " << a_b_intersect << endl;
         cout << "A difference B = " << a_b_diff << endl;
@@ -99,11 +101,10 @@ int main(int argc, char* argv[]) {
         cout << "A X B = " << a_b_cross << endl;
         cout << "P(A) = " << a_power << endl;
 
+        // output to text file
         if (out_file.is_open()) {
-            out_file << "Set A: ";
-            out_file << set_a << endl;
-            out_file << "Set B: ";
-            out_file << set_b << endl;
+            out_file << "Set A: " << set_a << endl;
+            out_file << "Set B: " << set_b << endl;
             
             out_file << "A union B = " << a_b_union << endl;
             out_file << "A intersection B = " << a_b_intersect << endl;
@@ -114,9 +115,9 @@ int main(int argc, char* argv[]) {
         }
 
 	    return 0;
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
-        std::cerr << "Usage: " << argv[0] << " [-i file] [-o file]\n";
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << "\n";
+        cerr << "Usage: " << argv[0] << " [-i file] [-o file]\n";
         return 1;
     }
 
@@ -137,7 +138,7 @@ int main(int argc, char* argv[]) {
  * @param argv Array of argument strings (from main).
  * @return FileNames Structure containing resolved input and output file names.
  *
- * @throws std::runtime_error if an option is malformed, duplicated, or unknown.
+ * @throws runtime_error if an option is malformed, duplicated, or unknown.
  */
 FileNames parse_args(int argc, char* argv[]) {
     FileNames opts;
@@ -146,24 +147,24 @@ FileNames parse_args(int argc, char* argv[]) {
     //     return opts;
     // }
 
-    std::vector<std::string> args(argv + 1, argv + argc);
+    vector<string> args(argv + 1, argv + argc);
 
     for (size_t i = 0; i < args.size(); ++i) {
         if (args[i] == "-i") {
             if (i + 1 < args.size()) {
-                if (!opts.input_file.empty()) throw std::runtime_error("-i specified more than once");
+                if (!opts.input_file.empty()) throw runtime_error("-i specified more than once");
                 opts.input_file = args[++i];
-            } else throw std::runtime_error("-i requires a filename");
+            } else throw runtime_error("-i requires a filename");
         } else if (args[i] == "-o") {
             if (i + 1 < args.size()) {
-                if (!opts.output_file.empty()) throw std::runtime_error("-o specified more than once");
+                if (!opts.output_file.empty()) throw runtime_error("-o specified more than once");
                 opts.output_file = args[++i];
-            } else throw std::runtime_error("-o requires a filename");
+            } else throw runtime_error("-o requires a filename");
         } else if (args[i] == "-h" || args[i] == "--help") {
-            std::cout << "Usage: " << argv[0] << " [-i file] [-o file]\n";
-            std::exit(0);
+            cout << "Usage: " << argv[0] << " [-i file] [-o file]\n";
+            exit(0);
         } else {
-            throw std::runtime_error("Unknown option: " + args[i]);
+            throw runtime_error("Unknown option: " + args[i]);
         }
     }
 
