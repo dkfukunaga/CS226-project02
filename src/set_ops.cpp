@@ -48,10 +48,10 @@ ValueSet set_symmetric_difference(const ValueSet& A, const ValueSet& B) {
     return result;
 }
 
-ValuePairVec cartesian_product(const ValueSet& A, const ValueSet& B) {
+ValuePairVec set_cartesian_product(const ValueSet& A, const ValueSet& B) {
     ValuePairVec result;
     result.reserve(A.size() * B.size());
-    
+
     for (auto elem_a : A) {
         for (auto elem_b : B) {
             result.push_back(ValuePair{elem_a, elem_b});

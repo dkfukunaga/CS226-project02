@@ -85,7 +85,7 @@ ValueSet set_symmetric_difference(const ValueSet& A, const ValueSet& B);
  * @param B Set B
  * @return ValuePairVec Vector of ordered pairs representing all (a, b) combinations.
  */
-ValuePairVec cartesian_product(const ValueSet& A, const ValueSet& B);
+ValuePairVec set_cartesian_product(const ValueSet& A, const ValueSet& B);
 
 /**
  * @brief Computes the power set of a set.
